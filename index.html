@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f1e6">
+    <title>Sweet Crumbs Bakery — Checkout</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Georgia, "Times New Roman", serif;
+        background: #f7f1e6;
+        color: #493328;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      main {
+        width: min(100%, 540px);
+        padding: clamp(32px, 8vw, 56px);
+        border: 1px solid #e8dcc8;
+        border-radius: 24px;
+        background: #fffdf8;
+        box-shadow: 0 16px 48px rgb(73 51 40 / 9%);
+        text-align: center;
+      }
+
+      .brand {
+        margin: 0 0 28px;
+        color: #80624d;
+        font-family: Arial, sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2rem, 7vw, 2.8rem);
+        font-weight: 500;
+        line-height: 1.15;
+      }
+
+      .message {
+        margin: 20px 0 0;
+        color: #665247;
+        font-family: Arial, sans-serif;
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      .note {
+        margin: 24px 0 0;
+        padding: 16px;
+        border-radius: 14px;
+        background: #f7f1e6;
+        color: #594539;
+        font-family: Arial, sans-serif;
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .divider {
+        width: 48px;
+        height: 1px;
+        margin: 28px auto 0;
+        background: #b79778;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="brand">Sweet Crumbs Bakery</p>
+      <h1 id="heading">Checkout update</h1>
+      <p class="message" id="message">
+        Please return to the Sweet Crumbs Bakery app to view your order.
+      </p>
+      <p class="note" id="note">
+        This page does not confirm payment. Your order status updates in the app
+        only after PayMongo verifies the payment through its webhook.
+      </p>
+      <div class="divider" aria-hidden="true"></div>
+    </main>
+    <script>
+      const payment = new URLSearchParams(window.location.search)
+        .get("payment")
+        ?.toLowerCase();
+      const heading = document.getElementById("heading");
+      const message = document.getElementById("message");
+      const note = document.getElementById("note");
+
+      if (payment === "success") {
+        heading.textContent = "Thank you";
+        message.textContent =
+          "Checkout has returned successfully. Please return to the Sweet Crumbs Bakery app to check your order.";
+        note.textContent =
+          "This page does not confirm that payment was received. Your order status updates in the app only after PayMongo verifies the payment through its webhook.";
+      } else if (payment === "cancelled") {
+        heading.textContent = "Checkout cancelled";
+        message.textContent =
+          "Your checkout was cancelled. Please return to the Sweet Crumbs Bakery app to view your order.";
+        note.textContent =
+          "Your order status is managed by the app. If you choose to try again, follow the payment instructions shown there.";
+      }
+    </script>
+  </body>
+</html>
